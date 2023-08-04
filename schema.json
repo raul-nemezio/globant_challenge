@@ -1,0 +1,5 @@
+{
+    "hired_employees": ["id", "name", "datetime", "department_id", "job_id"],
+    "departments": ["id", "departments"],
+    "jobs": ["id", "job"]
+}

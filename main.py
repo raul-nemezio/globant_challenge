@@ -5,12 +5,19 @@ import pandas as pd
 from sqlalchemy import create_engine
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 app = FastAPI()
 
-password = os.getenv('password')
-con = create_engine(f"postgresql+psycopg2://postgres:{password}@localhost:5432/postgres")
+password = os.getenv("password")
+con = create_engine(
+    f"postgresql+psycopg2://postgres:{password}@localhost:5432/postgres"
+)
+
+with open("schema.json", "r") as f:
+    schema = json.load(f)
+
 
 @app.get("/")
 def read_root():
@@ -20,10 +27,16 @@ def read_root():
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
 
-    df = pd.read_csv(file.file)
-    file = file.filename.replace('.csv', '')
+    file_name = file.filename.replace(".csv", "")
 
-    df.to_sql(file, con, schema='bronze',
-              if_exists='replace', index=False)
+    if file_name in schema:
 
-    return f"{file} was upload do postgre!"
+        col_names = schema.get(file_name)
+        df = pd.read_csv(file.file, header=None, names=col_names)
+
+        df.to_sql(file_name, con, schema="bronze", if_exists="replace", index=False)
+
+        return f"{file_name} was upload do postgre!"
+
+    else:
+        return "Schema not saved!"
