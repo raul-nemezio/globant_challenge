@@ -1,6 +1,6 @@
 /*
     Number of employees hired for each job and department in 2021 divided by quarter. The
-        table must be ordered alphabetically by department and job.
+    table must be ordered alphabetically by department and job.
 */
 
 WITH cte_with_quarter AS (
@@ -12,13 +12,13 @@ WITH cte_with_quarter AS (
 	INNER JOIN bronze.departments d ON d.id = he.department_id
 ),
 cte_grouped AS (
-	SELECT departments AS department,
+	SELECT department,
 	job,
 	quarter,
 	count(*)
 	FROM cte_with_quarter
 	GROUP BY 
-	departments,
+	department,
 	job,
 	quarter
 )
