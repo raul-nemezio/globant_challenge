@@ -14,10 +14,10 @@ To create the database I have used docker using the command 'sudo docker run --n
 
 The results of both queries were:
 
-###Query 1:
+### Query 1:
 
 ![alt text](./images/employees_grouped_query_result.PNG?raw=true)
 
-###Query 2:
+### Query 2:
 
 ![alt text](./images/hired_result_query.PNG?raw=true)
